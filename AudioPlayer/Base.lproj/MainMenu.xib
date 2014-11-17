@@ -13,7 +13,10 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="seekBar" destination="yez-gQ-wo2" id="zvC-dD-qyv"/>
                 <outlet property="selectedFileName" destination="Sj1-sn-eFh" id="9jv-01-PWa"/>
+                <outlet property="titleView" destination="Jxc-DV-pLd" id="G84-fz-j7K"/>
+                <outlet property="togglePlayingStatusButton" destination="UGP-sP-sDy" id="gpY-jd-dT3"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -667,33 +670,24 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="AudioPlayer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="AudioPlayer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="INAppStoreWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <value key="minSize" type="size" width="480" height="360"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kP2-BJ-BTd">
-                        <rect key="frame" x="14" y="312" width="74" height="32"/>
-                        <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yU1-Jw-fi0">
+                        <rect key="frame" x="20" y="316" width="72" height="25"/>
+                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yU1-Jw-fi0">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="onOpenFileClick:" target="Voe-Tx-rLC" id="3ld-I7-5PA"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JLf-qi-fa4">
-                        <rect key="frame" x="155" y="312" width="79" height="32"/>
-                        <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aYq-EW-i60">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="onPauseClick:" target="Voe-Tx-rLC" id="a9M-Cj-lxv"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sj1-sn-eFh">
@@ -704,18 +698,46 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tMh-H0-2Pc">
-                        <rect key="frame" x="88" y="312" width="67" height="32"/>
-                        <buttonCell key="cell" type="push" title="Play" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eqq-Ek-hPH">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="onPlayClick:" target="Voe-Tx-rLC" id="hOt-QK-lqj"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
         </window>
+        <customView id="Jxc-DV-pLd">
+            <rect key="frame" x="0.0" y="0.0" width="421" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <slider focusRingType="none" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yez-gQ-wo2">
+                    <rect key="frame" x="135" y="10" width="268" height="21"/>
+                    <sliderCell key="cell" enabled="NO" state="on" focusRingType="none" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="wVq-xF-UKb"/>
+                </slider>
+                <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGP-sP-sDy">
+                    <rect key="frame" x="80" y="7" width="49" height="25"/>
+                    <buttonCell key="cell" type="roundTextured" title="▶" alternateTitle="| |" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="O4y-lv-xpj">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" size="13" name=".LucidaGrandeUI"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="onTogglePlayingStateClick:" target="Voe-Tx-rLC" id="gtN-8s-j0s"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="yez-gQ-wo2" secondAttribute="trailing" constant="20" id="VzE-js-Fia"/>
+                <constraint firstItem="yez-gQ-wo2" firstAttribute="leading" secondItem="UGP-sP-sDy" secondAttribute="trailing" constant="8" id="lPh-oa-bNH"/>
+                <constraint firstItem="UGP-sP-sDy" firstAttribute="leading" secondItem="Jxc-DV-pLd" secondAttribute="leading" constant="80" id="ueu-nm-TH5"/>
+            </constraints>
+            <point key="canvasLocation" x="842.5" y="828"/>
+        </customView>
+        <collectionViewItem id="e2O-9P-80p">
+            <connections>
+                <outlet property="view" destination="1GH-by-0ER" id="ruR-qp-pWS"/>
+            </connections>
+        </collectionViewItem>
+        <view id="1GH-by-0ER">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
     </objects>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+    </resources>
 </document>

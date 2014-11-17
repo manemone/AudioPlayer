@@ -13,6 +13,11 @@
 		4E3D40DE1A19D66500FA92C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E3D40DC1A19D66500FA92C9 /* MainMenu.xib */; };
 		4E3D40EA1A19D66500FA92C9 /* AudioPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D40E91A19D66500FA92C9 /* AudioPlayerTests.m */; };
 		4E3D40F41A19D77400FA92C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E3D40F31A19D77400FA92C9 /* AVFoundation.framework */; };
+		4EE3DB1E1A1AEDE60077477E /* INAppStoreWindowSwizzling.c in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB131A1AEDE60077477E /* INAppStoreWindowSwizzling.c */; };
+		4EE3DB1F1A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB161A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m */; };
+		4EE3DB201A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB181A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m */; };
+		4EE3DB211A1AEDE60077477E /* INAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB1A1A1AEDE60077477E /* INAppStoreWindow.m */; };
+		4EE3DB221A1AEDE60077477E /* INWindowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB1D1A1AEDE60077477E /* INWindowButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +42,17 @@
 		4E3D40E81A19D66500FA92C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E3D40E91A19D66500FA92C9 /* AudioPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerTests.m; sourceTree = "<group>"; };
 		4E3D40F31A19D77400FA92C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4EE3DB131A1AEDE60077477E /* INAppStoreWindowSwizzling.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = INAppStoreWindowSwizzling.c; sourceTree = "<group>"; };
+		4EE3DB141A1AEDE60077477E /* INAppStoreWindowSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INAppStoreWindowSwizzling.h; sourceTree = "<group>"; };
+		4EE3DB151A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "INWindowBackgroundView+CoreUIRendering.h"; sourceTree = "<group>"; };
+		4EE3DB161A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "INWindowBackgroundView+CoreUIRendering.m"; sourceTree = "<group>"; };
+		4EE3DB171A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDocument+INAppStoreWindowFixes.h"; sourceTree = "<group>"; };
+		4EE3DB181A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDocument+INAppStoreWindowFixes.m"; sourceTree = "<group>"; };
+		4EE3DB191A1AEDE60077477E /* INAppStoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INAppStoreWindow.h; sourceTree = "<group>"; };
+		4EE3DB1A1A1AEDE60077477E /* INAppStoreWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INAppStoreWindow.m; sourceTree = "<group>"; };
+		4EE3DB1B1A1AEDE60077477E /* INAppStoreWindowCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INAppStoreWindowCompatibility.h; sourceTree = "<group>"; };
+		4EE3DB1C1A1AEDE60077477E /* INWindowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INWindowButton.h; sourceTree = "<group>"; };
+		4EE3DB1D1A1AEDE60077477E /* INWindowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INWindowButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +81,7 @@
 				4E3D40D21A19D66500FA92C9 /* AudioPlayer */,
 				4E3D40E61A19D66500FA92C9 /* AudioPlayerTests */,
 				4E3D40D11A19D66500FA92C9 /* Products */,
+				4EE3DB111A1AEDE60077477E /* INAppStoreWindow */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,6 +130,32 @@
 				4E3D40E81A19D66500FA92C9 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4EE3DB111A1AEDE60077477E /* INAppStoreWindow */ = {
+			isa = PBXGroup;
+			children = (
+				4EE3DB121A1AEDE60077477E /* Extensions */,
+				4EE3DB191A1AEDE60077477E /* INAppStoreWindow.h */,
+				4EE3DB1A1A1AEDE60077477E /* INAppStoreWindow.m */,
+				4EE3DB1B1A1AEDE60077477E /* INAppStoreWindowCompatibility.h */,
+				4EE3DB1C1A1AEDE60077477E /* INWindowButton.h */,
+				4EE3DB1D1A1AEDE60077477E /* INWindowButton.m */,
+			);
+			path = INAppStoreWindow;
+			sourceTree = "<group>";
+		};
+		4EE3DB121A1AEDE60077477E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4EE3DB131A1AEDE60077477E /* INAppStoreWindowSwizzling.c */,
+				4EE3DB141A1AEDE60077477E /* INAppStoreWindowSwizzling.h */,
+				4EE3DB151A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.h */,
+				4EE3DB161A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m */,
+				4EE3DB171A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.h */,
+				4EE3DB181A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,7 +257,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EE3DB211A1AEDE60077477E /* INAppStoreWindow.m in Sources */,
+				4EE3DB201A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m in Sources */,
 				4E3D40D91A19D66500FA92C9 /* main.m in Sources */,
+				4EE3DB221A1AEDE60077477E /* INWindowButton.m in Sources */,
+				4EE3DB1F1A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m in Sources */,
+				4EE3DB1E1A1AEDE60077477E /* INAppStoreWindowSwizzling.c in Sources */,
 				4E3D40D71A19D66500FA92C9 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,6 +450,7 @@
 				4E3D40EF1A19D66500FA92C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4E3D40F01A19D66500FA92C9 /* Build configuration list for PBXNativeTarget "AudioPlayerTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +459,7 @@
 				4E3D40F21A19D66500FA92C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

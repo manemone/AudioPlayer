@@ -13,11 +13,13 @@
 @property float playerRate;
 @property (nonatomic) AVMutableAudioMix* audioMix;
 @property (nonatomic) AVPlayer* player;
-@property (weak) IBOutlet NSWindow *window;
+@property (weak) IBOutlet INAppStoreWindow *window;
 @property (weak) IBOutlet NSTextField *selectedFileName;
+@property (weak) IBOutlet NSView *titleView;
+@property (weak) IBOutlet NSButton *togglePlayingStatusButton;
+@property (weak) IBOutlet NSSlider *seekBar;
 
-- (IBAction)onPlayClick:(id)sender;
-- (IBAction)onPauseClick:(id)sender;
+- (IBAction)onTogglePlayingStateClick:(id)sender;
 - (IBAction)onOpenFileClick:(id)sender;
 
 - (BOOL)isReadyToPlay;
@@ -26,6 +28,8 @@
 - (void)pause;
 - (void)playWithUrl:(NSURL*)pathUrl;
 - (void)prepareToPlayWithUrl:(NSURL*)pathUrl;
+- (void)disableSeekBar;
+- (void)enableSeekBar;
 @end
 
 @implementation AppDelegate
@@ -41,17 +45,20 @@
     self.player = [[AVPlayer alloc] init];
     
     self.playerRate = 1.2;
+    
+    self.window.titleBarHeight = 40.0;
+    self.titleView.frame = self.window.titleBarView.bounds;
+    self.titleView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [self.window.titleBarView addSubview:self.titleView];
+    
+    self.window.centerTrafficLightButtons = YES;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
 
-- (IBAction)onPlayClick:(id)sender {
-    [self play];
-}
-
-- (IBAction)onPauseClick:(id)sender {
+- (IBAction)onTogglePlayingStateClick:(id)sender {
     if ([self isReadyToPlay]) {
         if ([self isPlaying]) {
             [self pause];
@@ -59,8 +66,7 @@
         else {
             [self play];
         }
-    }
-}
+    }}
 
 - (BOOL)isReadyToPlay {
     if (self.player != nil && self.player.status == AVPlayerStatusReadyToPlay) {
@@ -93,6 +99,26 @@
 - (void)play {
     if ([self isReadyToPlay]) {
         self.player.rate = self.playerRate;
+        self.togglePlayingStatusButton.state = NSOnState;
+        
+        [self enableSeekBar];
+        
+        // Observe playing status
+        __weak typeof(self) wself = self;
+        [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
+            // update seekbar
+            if (time.value != wself.player.currentItem.duration.value) {
+                wself.seekBar.floatValue = time.value/time.timescale;
+            }
+        }];
+        
+        NSArray* endOfItem = @[[NSValue valueWithCMTime:self.player.currentItem.duration]];
+        [self.player addBoundaryTimeObserverForTimes:endOfItem queue:NULL usingBlock:^(void) {
+            // reset playingStateToggleButton
+            wself.togglePlayingStatusButton.state = NSOffState;
+            
+            [wself disableSeekBar];
+        }];
     }
 }
 
@@ -100,6 +126,7 @@
     if ([self isReadyToPlay]) {
         [self.player pause];
     }
+    self.togglePlayingStatusButton.state = NSOffState;
 }
 
 - (void)playWithUrl:(NSURL*)url {
@@ -108,15 +135,19 @@
 }
 
 - (void)prepareToPlayWithUrl:(NSURL*)url {
-    if ([self isReadyToPlay]) {
-        [self.player pause];
-    }
+    [self pause];
+    [self.player seekToTime:CMTimeMake(0, 1)];
     
+    // Set audio content to the player
     AVPlayerItem* playerItem = [[AVPlayerItem alloc] initWithURL:url];
     playerItem.audioMix = self.audioMix;
     
+    // disable seekbar
+    [self disableSeekBar];
+    
     [self.player replaceCurrentItemWithPlayerItem:playerItem];
     
+    // Show name of the selected content file
     NSArray *parts = [[url absoluteString] componentsSeparatedByString:@"/"];
     NSString *filename = [parts lastObject];
     
@@ -131,8 +162,24 @@
     [openDlg beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             NSURL* theDoc = [[openDlg URLs] objectAtIndex:0];
-            [self playWithUrl:theDoc];
+            [self prepareToPlayWithUrl:theDoc];
         }
     }];
+}
+
+- (void)enableSeekBar {
+    if (self.player.currentItem) {
+        //NSLog(@"%lld", self.player.currentItem.duration.value);
+        //NSLog(@"%d", self.player.currentItem.duration.timescale);
+        self.seekBar.maxValue = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
+        self.seekBar.floatValue = 0.0;
+        self.seekBar.enabled = YES;
+    }
+}
+
+- (void)disableSeekBar {
+    self.seekBar.minValue = 0.0;
+    self.seekBar.floatValue = 0.0;
+    self.seekBar.enabled = NO;
 }
 @end
