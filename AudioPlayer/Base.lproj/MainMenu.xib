@@ -13,11 +13,15 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="seekBar" destination="yez-gQ-wo2" id="zvC-dD-qyv"/>
+                <outlet property="playerViewController" destination="fZq-1t-f9A" id="Znc-El-Rd5"/>
                 <outlet property="selectedFileName" destination="Sj1-sn-eFh" id="9jv-01-PWa"/>
-                <outlet property="titleView" destination="Jxc-DV-pLd" id="G84-fz-j7K"/>
-                <outlet property="togglePlayingStatusButton" destination="UGP-sP-sDy" id="gpY-jd-dT3"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="fZq-1t-f9A" customClass="PlayerViewController">
+            <connections>
+                <outlet property="playerView" destination="Jxc-DV-pLd" id="wbq-2B-8r8"/>
+                <outlet property="seekBar" destination="yez-gQ-wo2" id="OS7-so-HKD"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -674,7 +678,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="480" height="360"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
@@ -716,7 +720,7 @@
                         <font key="font" size="13" name=".LucidaGrandeUI"/>
                     </buttonCell>
                     <connections>
-                        <action selector="onTogglePlayingStateClick:" target="Voe-Tx-rLC" id="gtN-8s-j0s"/>
+                        <action selector="onTogglePlayingStateClick:" target="fZq-1t-f9A" id="Xmp-jI-0mN"/>
                     </connections>
                 </button>
             </subviews>
@@ -725,7 +729,7 @@
                 <constraint firstItem="yez-gQ-wo2" firstAttribute="leading" secondItem="UGP-sP-sDy" secondAttribute="trailing" constant="8" id="lPh-oa-bNH"/>
                 <constraint firstItem="UGP-sP-sDy" firstAttribute="leading" secondItem="Jxc-DV-pLd" secondAttribute="leading" constant="80" id="ueu-nm-TH5"/>
             </constraints>
-            <point key="canvasLocation" x="842.5" y="828"/>
+            <point key="canvasLocation" x="433.5" y="45"/>
         </customView>
         <collectionViewItem id="e2O-9P-80p">
             <connections>

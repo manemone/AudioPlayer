@@ -13,6 +13,7 @@
 		4E3D40DE1A19D66500FA92C9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E3D40DC1A19D66500FA92C9 /* MainMenu.xib */; };
 		4E3D40EA1A19D66500FA92C9 /* AudioPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D40E91A19D66500FA92C9 /* AudioPlayerTests.m */; };
 		4E3D40F41A19D77400FA92C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E3D40F31A19D77400FA92C9 /* AVFoundation.framework */; };
+		4E3D40FA1A1AF43000FA92C9 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D40F91A1AF43000FA92C9 /* PlayerViewController.m */; };
 		4EE3DB1E1A1AEDE60077477E /* INAppStoreWindowSwizzling.c in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB131A1AEDE60077477E /* INAppStoreWindowSwizzling.c */; };
 		4EE3DB1F1A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB161A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m */; };
 		4EE3DB201A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB181A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m */; };
@@ -42,6 +43,8 @@
 		4E3D40E81A19D66500FA92C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E3D40E91A19D66500FA92C9 /* AudioPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerTests.m; sourceTree = "<group>"; };
 		4E3D40F31A19D77400FA92C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4E3D40F81A1AF43000FA92C9 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
+		4E3D40F91A1AF43000FA92C9 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		4EE3DB131A1AEDE60077477E /* INAppStoreWindowSwizzling.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = INAppStoreWindowSwizzling.c; sourceTree = "<group>"; };
 		4EE3DB141A1AEDE60077477E /* INAppStoreWindowSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INAppStoreWindowSwizzling.h; sourceTree = "<group>"; };
 		4EE3DB151A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "INWindowBackgroundView+CoreUIRendering.h"; sourceTree = "<group>"; };
@@ -102,6 +105,8 @@
 				4E3D40DA1A19D66500FA92C9 /* Images.xcassets */,
 				4E3D40DC1A19D66500FA92C9 /* MainMenu.xib */,
 				4E3D40D31A19D66500FA92C9 /* Supporting Files */,
+				4E3D40F81A1AF43000FA92C9 /* PlayerViewController.h */,
+				4E3D40F91A1AF43000FA92C9 /* PlayerViewController.m */,
 			);
 			path = AudioPlayer;
 			sourceTree = "<group>";
@@ -262,6 +267,7 @@
 				4E3D40D91A19D66500FA92C9 /* main.m in Sources */,
 				4EE3DB221A1AEDE60077477E /* INWindowButton.m in Sources */,
 				4EE3DB1F1A1AEDE60077477E /* INWindowBackgroundView+CoreUIRendering.m in Sources */,
+				4E3D40FA1A1AF43000FA92C9 /* PlayerViewController.m in Sources */,
 				4EE3DB1E1A1AEDE60077477E /* INAppStoreWindowSwizzling.c in Sources */,
 				4E3D40D71A19D66500FA92C9 /* AppDelegate.m in Sources */,
 			);

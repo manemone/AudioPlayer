@@ -7,11 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <AVFoundation/AVFoundation.h>
 #import "INAppStoreWindow.h"
+#import "PlayerViewController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
-
-
 @end
 
