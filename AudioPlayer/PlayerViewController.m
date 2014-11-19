@@ -16,32 +16,35 @@
 @property (weak) IBOutlet NSButton *togglePlayingStatusButton;
 @property (weak) IBOutlet NSSlider *seekBar;
 
-- (void)initializeAudioObjects;
+- (void)setup;
 
 - (IBAction)onTogglePlayingStateClick:(id)sender;
 
 - (BOOL)isReadyToPlay;
 - (BOOL)isPlaying;
+- (void)prepareToPlayWithUrl:(NSURL*)pathUrl;
 - (void)play;
 - (void)pause;
 - (void)playWithUrl:(NSURL*)pathUrl;
 - (void)disableSeekBar;
 - (void)enableSeekBar;
+
+- (void)handleAPMediaSelectedNotification:(NSNotification*)notification;
 @end
 
 @implementation PlayerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initializeAudioObjects];
+    [self setup];
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self initializeAudioObjects];
+    [self setup];
 }
 
-- (void)initializeAudioObjects {
+- (void)setup {
     AVMutableAudioMixInputParameters* mixParameters = [AVMutableAudioMixInputParameters audioMixInputParameters];
     mixParameters.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmVarispeed;
     
@@ -51,6 +54,13 @@
     self.player = [[AVPlayer alloc] init];
     
     self.playerRate = 1.2;
+    
+    // Subscribe media selection event
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleAPMediaSelectedNotification:)
+                                                 name:APMediaSelectedNotification
+                                               object:nil];
 }
 
 - (IBAction)onTogglePlayingStateClick:(id)sender {
@@ -146,7 +156,7 @@
     // Show name of the selected content file
     NSArray *parts = [[url absoluteString] componentsSeparatedByString:@"/"];
     NSString *filename = [parts lastObject];
-    NSLog(@"%@", filename);
+    // NSLog(@"%@", filename);
     // self.selectedFileName.stringValue = filename;
 }
 
@@ -161,6 +171,13 @@
     self.seekBar.minValue = 0.0;
     self.seekBar.floatValue = 0.0;
     self.seekBar.enabled = NO;
+}
+
+- (void)handleAPMediaSelectedNotification:(NSNotification *)notification {
+    NSURL* url = [notification userInfo][@"url"];
+    if (url) {
+        [self prepareToPlayWithUrl:url];
+    }
 }
 
 @end

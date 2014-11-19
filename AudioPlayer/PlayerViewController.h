@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
+#import "APNotification.h"
 
 @interface PlayerViewController : NSViewController
 
 @property (weak) IBOutlet NSView *playerView;
-- (void)prepareToPlayWithUrl:(NSURL*)pathUrl;
 
 @end

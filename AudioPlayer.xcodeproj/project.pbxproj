@@ -19,6 +19,7 @@
 		4EE3DB201A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB181A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m */; };
 		4EE3DB211A1AEDE60077477E /* INAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB1A1A1AEDE60077477E /* INAppStoreWindow.m */; };
 		4EE3DB221A1AEDE60077477E /* INWindowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB1D1A1AEDE60077477E /* INWindowButton.m */; };
+		4EE3DB251A1C24AC0077477E /* APNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE3DB241A1C24AC0077477E /* APNotification.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		4EE3DB1B1A1AEDE60077477E /* INAppStoreWindowCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INAppStoreWindowCompatibility.h; sourceTree = "<group>"; };
 		4EE3DB1C1A1AEDE60077477E /* INWindowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INWindowButton.h; sourceTree = "<group>"; };
 		4EE3DB1D1A1AEDE60077477E /* INWindowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INWindowButton.m; sourceTree = "<group>"; };
+		4EE3DB231A1C24AC0077477E /* APNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNotification.h; sourceTree = "<group>"; };
+		4EE3DB241A1C24AC0077477E /* APNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNotification.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +105,8 @@
 			children = (
 				4E3D40D51A19D66500FA92C9 /* AppDelegate.h */,
 				4E3D40D61A19D66500FA92C9 /* AppDelegate.m */,
+				4EE3DB231A1C24AC0077477E /* APNotification.h */,
+				4EE3DB241A1C24AC0077477E /* APNotification.m */,
 				4E3D40DA1A19D66500FA92C9 /* Images.xcassets */,
 				4E3D40DC1A19D66500FA92C9 /* MainMenu.xib */,
 				4E3D40D31A19D66500FA92C9 /* Supporting Files */,
@@ -262,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EE3DB251A1C24AC0077477E /* APNotification.m in Sources */,
 				4EE3DB211A1AEDE60077477E /* INAppStoreWindow.m in Sources */,
 				4EE3DB201A1AEDE60077477E /* NSDocument+INAppStoreWindowFixes.m in Sources */,
 				4E3D40D91A19D66500FA92C9 /* main.m in Sources */,

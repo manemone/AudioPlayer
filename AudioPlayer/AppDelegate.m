@@ -42,8 +42,11 @@
     
     [openDlg beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
-            NSURL* theDoc = [[openDlg URLs] objectAtIndex:0];
-            [self.playerViewController prepareToPlayWithUrl:theDoc];
+            NSURL* url = [[openDlg URLs] objectAtIndex:0];
+            NSDictionary* userInfo = @{@"url": url};
+            [[NSNotificationCenter defaultCenter] postNotificationName:APMediaSelectedNotification
+                                                                object:self
+                                                              userInfo:userInfo];
         }
     }];
 }

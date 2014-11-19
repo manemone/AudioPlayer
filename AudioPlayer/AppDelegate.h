@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "INAppStoreWindow.h"
 #import "PlayerViewController.h"
+#import "APNotification.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 @end
