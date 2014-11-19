@@ -15,10 +15,12 @@
 @property (nonatomic) AVPlayer* player;
 @property (weak) IBOutlet NSButton *togglePlayingStatusButton;
 @property (weak) IBOutlet NSSlider *seekBar;
+@property (nonatomic) id periodicTimeObserver;
 
 - (void)setup;
 
 - (IBAction)onTogglePlayingStateClick:(id)sender;
+- (IBAction)onSeekbarValueChanged:(id)sender;
 
 - (BOOL)isReadyToPlay;
 - (BOOL)isPlaying;
@@ -74,6 +76,14 @@
     }
 }
 
+- (IBAction)onSeekbarValueChanged:(id)sender {
+    float newValue = [sender floatValue];
+    if (self.isReadyToPlay) {
+        [self.player seekToTime:CMTimeMake(newValue*self.player.currentItem.duration.timescale,
+                                           self.player.currentItem.duration.timescale)];
+    }
+}
+
 - (BOOL)isReadyToPlay {
     if (self.player != nil && self.player.status == AVPlayerStatusReadyToPlay) {
         return YES;
@@ -108,23 +118,6 @@
         self.togglePlayingStatusButton.state = NSOnState;
         
         [self enableSeekBar];
-        
-        // Observe playing status
-        __weak typeof(self) wself = self;
-        [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
-            // update seekbar
-            if (time.value != wself.player.currentItem.duration.value) {
-                wself.seekBar.floatValue = time.value/time.timescale;
-            }
-        }];
-        
-        NSArray* endOfItem = @[[NSValue valueWithCMTime:self.player.currentItem.duration]];
-        [self.player addBoundaryTimeObserverForTimes:endOfItem queue:NULL usingBlock:^(void) {
-            // reset playingStateToggleButton
-            wself.togglePlayingStatusButton.state = NSOffState;
-            
-            [wself disableSeekBar];
-        }];
     }
 }
 
@@ -151,19 +144,34 @@
     // disable seekbar
     [self disableSeekBar];
     
-    [self.player replaceCurrentItemWithPlayerItem:playerItem];
+    self.togglePlayingStatusButton.enabled = YES;
     
-    // Show name of the selected content file
-    NSArray *parts = [[url absoluteString] componentsSeparatedByString:@"/"];
-    NSString *filename = [parts lastObject];
-    // NSLog(@"%@", filename);
-    // self.selectedFileName.stringValue = filename;
+    [self.player replaceCurrentItemWithPlayerItem:playerItem];
 }
 
 - (void)enableSeekBar {
     if (self.player.currentItem) {
         self.seekBar.maxValue = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
         self.seekBar.enabled = YES;
+        
+        // Observe playing status
+        __weak typeof(self) wself = self;
+        double interval = ( 0.5f * self.seekBar.maxValue ) / self.seekBar.bounds.size.width;
+        CMTime time     = CMTimeMakeWithSeconds( interval, NSEC_PER_SEC );
+        
+        self.periodicTimeObserver = [self.player addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time) {
+            // update seekbar
+            if (time.value != wself.player.currentItem.duration.value) {
+                double duration = CMTimeGetSeconds([wself.player.currentItem duration]);
+                double time     = CMTimeGetSeconds([wself.player currentTime]);
+                float  value    = (wself.seekBar.maxValue - wself.seekBar.minValue ) * time / duration + wself.seekBar.minValue;
+                wself.seekBar.floatValue = value;
+            }
+            else {
+                [wself pause];
+                [wself.player seekToTime:CMTimeMake(0, 1)];
+            }
+        }];
     }
 }
 
@@ -171,6 +179,11 @@
     self.seekBar.minValue = 0.0;
     self.seekBar.floatValue = 0.0;
     self.seekBar.enabled = NO;
+    
+    if (self.periodicTimeObserver != nil) {
+        [self.player removeTimeObserver:self.periodicTimeObserver];
+        self.periodicTimeObserver = nil;
+    }
 }
 
 - (void)handleAPMediaSelectedNotification:(NSNotification *)notification {

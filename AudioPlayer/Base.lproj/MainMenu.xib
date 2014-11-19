@@ -22,6 +22,7 @@
             <connections>
                 <outlet property="playerView" destination="Jxc-DV-pLd" id="wbq-2B-8r8"/>
                 <outlet property="seekBar" destination="yez-gQ-wo2" id="OS7-so-HKD"/>
+                <outlet property="togglePlayingStatusButton" destination="UGP-sP-sDy" id="jcv-eN-uKO"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -678,7 +679,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="480" height="360"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
@@ -711,11 +712,14 @@
             <subviews>
                 <slider focusRingType="none" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yez-gQ-wo2">
                     <rect key="frame" x="135" y="10" width="268" height="21"/>
-                    <sliderCell key="cell" enabled="NO" state="on" focusRingType="none" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="wVq-xF-UKb"/>
+                    <sliderCell key="cell" continuous="YES" enabled="NO" state="on" focusRingType="none" alignment="left" maxValue="60" tickMarkPosition="above" sliderType="linear" id="wVq-xF-UKb"/>
+                    <connections>
+                        <action selector="onSeekbarValueChanged:" target="fZq-1t-f9A" id="chw-xl-nKy"/>
+                    </connections>
                 </slider>
                 <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UGP-sP-sDy">
                     <rect key="frame" x="80" y="7" width="49" height="25"/>
-                    <buttonCell key="cell" type="roundTextured" title="▶" alternateTitle="| |" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="O4y-lv-xpj">
+                    <buttonCell key="cell" type="roundTextured" title="▶" alternateTitle="| |" bezelStyle="texturedRounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="O4y-lv-xpj">
                         <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                         <font key="font" size="13" name=".LucidaGrandeUI"/>
                     </buttonCell>
@@ -729,7 +733,7 @@
                 <constraint firstItem="yez-gQ-wo2" firstAttribute="leading" secondItem="UGP-sP-sDy" secondAttribute="trailing" constant="8" id="lPh-oa-bNH"/>
                 <constraint firstItem="UGP-sP-sDy" firstAttribute="leading" secondItem="Jxc-DV-pLd" secondAttribute="leading" constant="80" id="ueu-nm-TH5"/>
             </constraints>
-            <point key="canvasLocation" x="433.5" y="45"/>
+            <point key="canvasLocation" x="336.5" y="272"/>
         </customView>
         <collectionViewItem id="e2O-9P-80p">
             <connections>
