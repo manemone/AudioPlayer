@@ -13,6 +13,8 @@
 @property (weak) IBOutlet NSButton *togglePlayingStatusButton;
 @property (weak) IBOutlet NSSlider *seekBar;
 @property (weak) IBOutlet NSSlider *rateSlider;
+@property (weak) IBOutlet NSPopover *rateDisplay;
+@property (weak) IBOutlet NSTextField *rateDisplayText;
 
 @property (nonatomic) Player* player;
 @property (nonatomic) id periodicTimeObserver;
@@ -86,6 +88,8 @@
 - (IBAction)onRateSliderValueChanged:(id)sender {
     float newValue = [sender floatValue];
     self.player.settingRate = newValue;
+    self.rateDisplayText.stringValue = [NSString stringWithFormat:@"x%.2f", newValue];
+    [self.rateDisplay showRelativeToRect:self.rateSlider.bounds ofView:self.rateSlider preferredEdge:NSMinYEdge];
 }
 
 - (void)handleAPMediaSelectedNotification:(NSNotification *)notification {

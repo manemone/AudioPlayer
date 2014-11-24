@@ -21,6 +21,8 @@
         <customObject id="fZq-1t-f9A" customClass="PlayerViewController">
             <connections>
                 <outlet property="playerView" destination="Jxc-DV-pLd" id="wbq-2B-8r8"/>
+                <outlet property="rateDisplay" destination="ZyE-Qs-ZYr" id="qhX-Xd-Bwq"/>
+                <outlet property="rateDisplayText" destination="BNF-h9-P1i" id="BUi-Vr-WOd"/>
                 <outlet property="rateSlider" destination="uch-cE-Ziu" id="XdW-1k-j6g"/>
                 <outlet property="seekBar" destination="yez-gQ-wo2" id="OS7-so-HKD"/>
                 <outlet property="togglePlayingStatusButton" destination="UGP-sP-sDy" id="jcv-eN-uKO"/>
@@ -706,6 +708,7 @@
                     </textField>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="331" y="749"/>
         </window>
         <customView id="Jxc-DV-pLd">
             <rect key="frame" x="0.0" y="0.0" width="421" height="40"/>
@@ -742,17 +745,33 @@
                 <constraint firstAttribute="trailing" secondItem="yez-gQ-wo2" secondAttribute="trailing" constant="20" id="VzE-js-Fia"/>
                 <constraint firstItem="UGP-sP-sDy" firstAttribute="leading" secondItem="Jxc-DV-pLd" secondAttribute="leading" constant="80" id="ueu-nm-TH5"/>
             </constraints>
-            <point key="canvasLocation" x="336.5" y="272"/>
+            <point key="canvasLocation" x="337.5" y="487"/>
         </customView>
-        <collectionViewItem id="e2O-9P-80p">
+        <viewController id="4oF-t4-Tgd" userLabel="Popover View Controller">
             <connections>
-                <outlet property="view" destination="1GH-by-0ER" id="ruR-qp-pWS"/>
+                <outlet property="view" destination="vfb-xU-3uo" id="JFP-bd-lKH"/>
             </connections>
-        </collectionViewItem>
-        <view id="1GH-by-0ER">
-            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-            <autoresizingMask key="autoresizingMask"/>
-        </view>
+        </viewController>
+        <popover behavior="t" id="ZyE-Qs-ZYr">
+            <connections>
+                <outlet property="contentViewController" destination="4oF-t4-Tgd" id="8vm-Pb-eha"/>
+            </connections>
+        </popover>
+        <customView id="vfb-xU-3uo">
+            <rect key="frame" x="0.0" y="0.0" width="64" height="28"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BNF-h9-P1i">
+                    <rect key="frame" x="-2" y="-5" width="68" height="28"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="x 1.00" usesSingleLineMode="YES" id="xaL-HM-gm7">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="316" y="388"/>
+        </customView>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
