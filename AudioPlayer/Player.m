@@ -10,8 +10,13 @@
 
 @interface Player()
 
+@property (nonatomic, readwrite) BOOL isReadyToPlay;
 @property float settingRate;
 @property (nonatomic) AVMutableAudioMix* settingAudioMix;
+
+- (BOOL)checkIsReadyToPlay;
+- (void) changePlayerItemWith:(AVPlayerItem*)item;
+- (AVPlayerItem*) createNewPlayerItemWithUrl:(NSURL*)url;
 
 @end
 
@@ -26,22 +31,27 @@
         self.settingAudioMix.inputParameters = @[mixParameters];
 
         self.settingRate = 1.2;
+        
+        // observe item's change
+        [self addObserver:self forKeyPath:@"currentItem" options:NSKeyValueObservingOptionNew context:nil];
     }
 
     return self;
 }
 
-- (BOOL)isReadyToPlay {
-    if (self != nil && self.status == AVPlayerStatusReadyToPlay) {
-        return YES;
+- (BOOL)checkIsReadyToPlay {
+    if (self.status == AVPlayerStatusReadyToPlay && self.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+        self.isReadyToPlay = YES;
     }
     else {
-        return NO;
+        self.isReadyToPlay = NO;
     }
+    
+    return self.isReadyToPlay;
 }
 
 - (BOOL)isPlaying {
-    if ([self isReadyToPlay]) {
+    if (self.isReadyToPlay) {
         if (!self.error) {
             if (self.rate != 0) {
                 return YES;
@@ -60,7 +70,7 @@
 }
 
 - (void)play {
-    if ([self isReadyToPlay]) {
+    if (self.isReadyToPlay) {
         self.rate = self.settingRate;
     }
 }
@@ -72,16 +82,42 @@
 }
 
 - (void)prepareToPlayWithUrl:(NSURL*)url {
-    if ([self isReadyToPlay]) {
+    if (self.isReadyToPlay) {
         [self pause];
         [self seekToTime:CMTimeMake(0, 1)];
     }
 
+    AVPlayerItem* newItem = [self createNewPlayerItemWithUrl:url];
+    [self changePlayerItemWith:newItem];
+}
+
+- (void) changePlayerItemWith:(AVPlayerItem*)item {
+    [self.currentItem removeObserver:self forKeyPath:@"status"];
+    [self replaceCurrentItemWithPlayerItem:item];
+}
+
+- (AVPlayerItem*) createNewPlayerItemWithUrl:(NSURL*)url {
     // Set audio content to the player
     AVPlayerItem* playerItem = [[AVPlayerItem alloc] initWithURL:url];
+    
     playerItem.audioMix = self.settingAudioMix;
+    
+    // Observe status change to update playing availability
+    [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+    
+    return playerItem;
+}
 
-    [self replaceCurrentItemWithPlayerItem:playerItem];
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if ([keyPath isEqualToString:@"status"]) {
+        [self checkIsReadyToPlay];
+    }
+    else if ([keyPath isEqualToString:@"currentItem"]) {
+        [self checkIsReadyToPlay];
+    }
 }
 
 @end

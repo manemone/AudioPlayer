@@ -25,8 +25,11 @@
 
 - (void)disableSeekBar;
 - (void)enableSeekBar;
+- (void)disableTogglePlayingStatusButton;
+- (void)enableTogglePlayingStatusButton;
 - (void)pause;
 - (void)play;
+- (void)applyPlayerItemStatus;
 
 @end
 
@@ -51,25 +54,29 @@
                                              selector:@selector(handleAPMediaSelectedNotification:)
                                                  name:APMediaSelectedNotification
                                                object:nil];
+    
+    // Observe media load
+    [self.player addObserver:self forKeyPath:@"isReadyToPlay" options:NSKeyValueObservingOptionNew context:nil];
+    [self.player addObserver:self forKeyPath:@"currentItem" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [self initializeControls];
 }
 
 - (IBAction)onTogglePlayingStateClick:(id)sender {
-    if ([self.player isReadyToPlay]) {
+    if (self.player.isReadyToPlay) {
         if ([self.player isPlaying]) {
             [self.player pause];
-            self.togglePlayingStatusButton.state = NSOffState;
         }
         else {
             [self.player play];
             [self enableSeekBar];
-            self.togglePlayingStatusButton.state = NSOnState;
         }
     }
 }
 
 - (IBAction)onSeekbarValueChanged:(id)sender {
     float newValue = [sender floatValue];
-    if ([self.player isReadyToPlay]) {
+    if (self.player.isReadyToPlay) {
         [self.player seekToTime:CMTimeMake(newValue*self.player.currentItem.duration.timescale,
                                            self.player.currentItem.duration.timescale)];
     }
@@ -79,15 +86,16 @@
     NSURL* url = [notification userInfo][@"url"];
     if (url) {
         [self.player prepareToPlayWithUrl:url];
-
-        // disable seekbar
-        [self disableSeekBar];
-
     }
 }
 
+- (void) initializeControls {
+    [self disableSeekBar];
+    [self disableTogglePlayingStatusButton];
+}
+
 - (void)enableSeekBar {
-    if ([self.player isReadyToPlay]) {
+    if (self.player.isReadyToPlay) {
         self.seekBar.maxValue = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
         self.seekBar.enabled = YES;
 
@@ -105,7 +113,7 @@
                 wself.seekBar.floatValue = value;
             }
             else {
-                [self pause];
+                [wself pause];
                 [wself.player seekToTime:CMTimeMake(0, 1)];
             }
         }];
@@ -123,14 +131,45 @@
     }
 }
 
+- (void)disableTogglePlayingStatusButton {
+    self.togglePlayingStatusButton.enabled = NO;
+}
+
+- (void)enableTogglePlayingStatusButton {
+    self.togglePlayingStatusButton.enabled = YES;
+}
+
 - (void)pause {
     [self.player pause];
-    self.togglePlayingStatusButton.enabled = NO;
+    self.togglePlayingStatusButton.state = NSOffState;
 }
 
 - (void)play {
     [self.player play];
-    self.togglePlayingStatusButton.enabled = YES;
+    self.togglePlayingStatusButton.enabled = NSOnState;
+}
+
+- (void)applyPlayerItemStatus {
+    if (self.player.isReadyToPlay) {
+        [self enableTogglePlayingStatusButton];
+        [self enableSeekBar];
+    }
+    else {
+        [self disableTogglePlayingStatusButton];
+        [self disableSeekBar];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if([keyPath isEqualToString:@"isReadyToPlay"]) {
+        [self applyPlayerItemStatus];
+    }
+    if([keyPath isEqualToString:@"currentItem"]) {
+        [self initializeControls];
+    }
 }
 
 @end
