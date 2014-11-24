@@ -87,6 +87,14 @@
     [self play];
 }
 
+- (Float64)timeElapsedInSec {
+    return CMTimeGetSeconds(self.currentItem.currentTime);
+}
+
+- (Float64)timeLeftInSec {
+    return CMTimeGetSeconds(CMTimeSubtract(self.currentItem.duration, self.currentItem.currentTime));
+}
+
 - (void)prepareToPlayWithUrl:(NSURL*)url {
     if (self.isReadyToPlay) {
         [self pause];

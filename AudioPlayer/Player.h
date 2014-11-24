@@ -18,5 +18,7 @@
 - (BOOL)isPlaying;
 - (void)prepareToPlayWithUrl:(NSURL*)pathUrl;
 - (void)playWithUrl:(NSURL*)pathUrl;
+- (Float64)timeElapsedInSec;
+- (Float64)timeLeftInSec;
 
 @end

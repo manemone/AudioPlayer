@@ -25,6 +25,8 @@
                 <outlet property="rateDisplayText" destination="BNF-h9-P1i" id="BUi-Vr-WOd"/>
                 <outlet property="rateSlider" destination="uch-cE-Ziu" id="XdW-1k-j6g"/>
                 <outlet property="seekBar" destination="yez-gQ-wo2" id="OS7-so-HKD"/>
+                <outlet property="timeElapsed" destination="Lb5-uU-fsE" id="Okt-N2-OL6"/>
+                <outlet property="timeLeft" destination="4PM-NI-fDN" id="KaS-77-0Py"/>
                 <outlet property="togglePlayingStatusButton" destination="UGP-sP-sDy" id="jcv-eN-uKO"/>
             </connections>
         </customObject>
@@ -715,8 +717,8 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <slider focusRingType="none" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yez-gQ-wo2">
-                    <rect key="frame" x="167" y="10" width="236" height="21"/>
-                    <sliderCell key="cell" continuous="YES" enabled="NO" state="on" focusRingType="none" alignment="left" maxValue="60" tickMarkPosition="above" sliderType="linear" id="wVq-xF-UKb"/>
+                    <rect key="frame" x="177" y="12" width="224" height="17"/>
+                    <sliderCell key="cell" controlSize="small" continuous="YES" enabled="NO" state="on" focusRingType="none" alignment="left" maxValue="60" tickMarkPosition="above" sliderType="linear" id="wVq-xF-UKb"/>
                     <connections>
                         <action selector="onSeekbarValueChanged:" target="fZq-1t-f9A" id="chw-xl-nKy"/>
                     </connections>
@@ -733,16 +735,35 @@
                 </button>
                 <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uch-cE-Ziu">
                     <rect key="frame" x="135" y="5" width="28" height="30"/>
-                    <sliderCell key="cell" continuous="YES" alignment="left" minValue="0.5" maxValue="2" doubleValue="1" tickMarkPosition="left" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Ng1-0v-tZy"/>
+                    <sliderCell key="cell" continuous="YES" alignment="left" minValue="0.5" maxValue="2" doubleValue="1" tickMarkPosition="above" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Ng1-0v-tZy"/>
                     <connections>
                         <action selector="onRateSliderValueChanged:" target="fZq-1t-f9A" id="Dtl-C8-uL5"/>
                     </connections>
                 </slider>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4PM-NI-fDN">
+                    <rect key="frame" x="365" y="4" width="38" height="11"/>
+                    <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="-00:00" id="Tkj-TN-uCu">
+                        <font key="font" metaFont="miniSystem"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lb5-uU-fsE">
+                    <rect key="frame" x="175" y="4" width="38" height="11"/>
+                    <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="00:00" id="83v-x2-SrH">
+                        <font key="font" metaFont="miniSystem"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="yez-gQ-wo2" firstAttribute="leading" secondItem="uch-cE-Ziu" secondAttribute="trailing" constant="8" id="6OA-nX-3qE"/>
+                <constraint firstItem="UGP-sP-sDy" firstAttribute="centerY" secondItem="uch-cE-Ziu" secondAttribute="centerY" id="3q8-ar-SF8"/>
+                <constraint firstItem="UGP-sP-sDy" firstAttribute="centerY" secondItem="yez-gQ-wo2" secondAttribute="centerY" id="A5b-LA-G2a"/>
+                <constraint firstItem="yez-gQ-wo2" firstAttribute="leading" secondItem="uch-cE-Ziu" secondAttribute="trailing" constant="16" id="ShG-OM-cpf"/>
                 <constraint firstItem="uch-cE-Ziu" firstAttribute="leading" secondItem="UGP-sP-sDy" secondAttribute="trailing" constant="8" id="Skw-rF-mwM"/>
                 <constraint firstAttribute="trailing" secondItem="yez-gQ-wo2" secondAttribute="trailing" constant="20" id="VzE-js-Fia"/>
+                <constraint firstAttribute="trailing" secondItem="4PM-NI-fDN" secondAttribute="trailing" constant="20" id="eig-xH-PZ5"/>
                 <constraint firstItem="UGP-sP-sDy" firstAttribute="leading" secondItem="Jxc-DV-pLd" secondAttribute="leading" constant="80" id="ueu-nm-TH5"/>
             </constraints>
             <point key="canvasLocation" x="337.5" y="487"/>

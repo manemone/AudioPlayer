@@ -15,6 +15,8 @@
 @property (weak) IBOutlet NSSlider *rateSlider;
 @property (weak) IBOutlet NSPopover *rateDisplay;
 @property (weak) IBOutlet NSTextField *rateDisplayText;
+@property (weak) IBOutlet NSTextField *timeElapsed;
+@property (weak) IBOutlet NSTextField *timeLeft;
 
 @property (nonatomic) Player* player;
 @property (nonatomic) id periodicTimeObserver;
@@ -112,7 +114,7 @@
 
         // Observe playing status
         __weak typeof(self) wself = self;
-        double interval = ( 0.5f * self.seekBar.maxValue ) / self.seekBar.bounds.size.width;
+        double interval = ( 0.2f * self.seekBar.maxValue ) / self.seekBar.bounds.size.width;
         CMTime time     = CMTimeMakeWithSeconds(interval, NSEC_PER_SEC);
 
         self.periodicTimeObserver = [self.player addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time) {
@@ -122,6 +124,8 @@
                 double time     = CMTimeGetSeconds([wself.player currentTime]);
                 float  value    = (wself.seekBar.maxValue - wself.seekBar.minValue ) * time / duration + wself.seekBar.minValue;
                 wself.seekBar.floatValue = value;
+                wself.timeElapsed.stringValue = [NSString stringWithFormat:@"%02.0f:%02.0f", floor([wself.player timeElapsedInSec]/60), floor(fmod([wself.player timeElapsedInSec], 60.0))];
+                wself.timeLeft.stringValue = [NSString stringWithFormat:@"-%02.0f:%02.0f", floor([wself.player timeLeftInSec]/60), floor(fmod([wself.player timeLeftInSec], 60.0))];
             }
             else {
                 [wself pause];
@@ -135,6 +139,8 @@
     self.seekBar.minValue = 0.0;
     self.seekBar.floatValue = 0.0;
     self.seekBar.enabled = NO;
+    self.timeElapsed.stringValue = @"00:00";
+    self.timeLeft.stringValue = @"-00:00";
 
     if (self.periodicTimeObserver != nil) {
         [self.player removeTimeObserver:self.periodicTimeObserver];
