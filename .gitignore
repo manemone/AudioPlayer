@@ -42,5 +42,4 @@ profile
 DerivedData
 .idea/
 *.hmap
-
-
+*.xcodeproj/project.xcworkspace/xcshareddata/*

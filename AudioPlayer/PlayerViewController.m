@@ -10,11 +10,10 @@
 
 @interface PlayerViewController ()
 
-@property float playerRate;
-@property (nonatomic) AVMutableAudioMix* audioMix;
-@property (nonatomic) AVPlayer* player;
 @property (weak) IBOutlet NSButton *togglePlayingStatusButton;
 @property (weak) IBOutlet NSSlider *seekBar;
+
+@property (nonatomic) Player* player;
 @property (nonatomic) id periodicTimeObserver;
 
 - (void)setup;
@@ -22,16 +21,13 @@
 - (IBAction)onTogglePlayingStateClick:(id)sender;
 - (IBAction)onSeekbarValueChanged:(id)sender;
 
-- (BOOL)isReadyToPlay;
-- (BOOL)isPlaying;
-- (void)prepareToPlayWithUrl:(NSURL*)pathUrl;
-- (void)play;
-- (void)pause;
-- (void)playWithUrl:(NSURL*)pathUrl;
+- (void)handleAPMediaSelectedNotification:(NSNotification*)notification;
+
 - (void)disableSeekBar;
 - (void)enableSeekBar;
+- (void)pause;
+- (void)play;
 
-- (void)handleAPMediaSelectedNotification:(NSNotification*)notification;
 @end
 
 @implementation PlayerViewController
@@ -47,16 +43,8 @@
 }
 
 - (void)setup {
-    AVMutableAudioMixInputParameters* mixParameters = [AVMutableAudioMixInputParameters audioMixInputParameters];
-    mixParameters.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmVarispeed;
-    
-    self.audioMix = [AVMutableAudioMix audioMix];
-    self.audioMix.inputParameters = @[mixParameters];
-    
-    self.player = [[AVPlayer alloc] init];
-    
-    self.playerRate = 1.2;
-    
+    self.player = [[Player alloc] init];
+
     // Subscribe media selection event
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -66,99 +54,48 @@
 }
 
 - (IBAction)onTogglePlayingStateClick:(id)sender {
-    if ([self isReadyToPlay]) {
-        if ([self isPlaying]) {
-            [self pause];
+    if ([self.player isReadyToPlay]) {
+        if ([self.player isPlaying]) {
+            [self.player pause];
+            self.togglePlayingStatusButton.state = NSOffState;
         }
         else {
-            [self play];
+            [self.player play];
+            [self enableSeekBar];
+            self.togglePlayingStatusButton.state = NSOnState;
         }
     }
 }
 
 - (IBAction)onSeekbarValueChanged:(id)sender {
     float newValue = [sender floatValue];
-    if (self.isReadyToPlay) {
+    if ([self.player isReadyToPlay]) {
         [self.player seekToTime:CMTimeMake(newValue*self.player.currentItem.duration.timescale,
                                            self.player.currentItem.duration.timescale)];
     }
 }
 
-- (BOOL)isReadyToPlay {
-    if (self.player != nil && self.player.status == AVPlayerStatusReadyToPlay) {
-        return YES;
-    }
-    else {
-        return NO;
-    }
-}
+- (void)handleAPMediaSelectedNotification:(NSNotification *)notification {
+    NSURL* url = [notification userInfo][@"url"];
+    if (url) {
+        [self.player prepareToPlayWithUrl:url];
 
-- (BOOL)isPlaying {
-    if ([self isReadyToPlay]) {
-        if (!self.player.error) {
-            if (self.player.rate != 0) {
-                return YES;
-            }
-            else {
-                return NO;
-            }
-        }
-        else {
-            return NO;
-        }
-    }
-    else {
-        return NO;
-    }
-}
+        // disable seekbar
+        [self disableSeekBar];
 
-- (void)play {
-    if ([self isReadyToPlay]) {
-        self.player.rate = self.playerRate;
-        self.togglePlayingStatusButton.state = NSOnState;
-        
-        [self enableSeekBar];
     }
-}
-
-- (void)pause {
-    if ([self isReadyToPlay]) {
-        [self.player pause];
-    }
-    self.togglePlayingStatusButton.state = NSOffState;
-}
-
-- (void)playWithUrl:(NSURL*)url {
-    [self prepareToPlayWithUrl:url];
-    [self play];
-}
-
-- (void)prepareToPlayWithUrl:(NSURL*)url {
-    [self pause];
-    [self.player seekToTime:CMTimeMake(0, 1)];
-    
-    // Set audio content to the player
-    AVPlayerItem* playerItem = [[AVPlayerItem alloc] initWithURL:url];
-    playerItem.audioMix = self.audioMix;
-    
-    // disable seekbar
-    [self disableSeekBar];
-    
-    self.togglePlayingStatusButton.enabled = YES;
-    
-    [self.player replaceCurrentItemWithPlayerItem:playerItem];
 }
 
 - (void)enableSeekBar {
-    if (self.player.currentItem) {
+    if ([self.player isReadyToPlay]) {
         self.seekBar.maxValue = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
         self.seekBar.enabled = YES;
-        
+
         // Observe playing status
         __weak typeof(self) wself = self;
         double interval = ( 0.5f * self.seekBar.maxValue ) / self.seekBar.bounds.size.width;
-        CMTime time     = CMTimeMakeWithSeconds( interval, NSEC_PER_SEC );
-        
+        CMTime time     = CMTimeMakeWithSeconds(interval, NSEC_PER_SEC);
+
         self.periodicTimeObserver = [self.player addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time) {
             // update seekbar
             if (time.value != wself.player.currentItem.duration.value) {
@@ -168,7 +105,7 @@
                 wself.seekBar.floatValue = value;
             }
             else {
-                [wself pause];
+                [self pause];
                 [wself.player seekToTime:CMTimeMake(0, 1)];
             }
         }];
@@ -179,18 +116,21 @@
     self.seekBar.minValue = 0.0;
     self.seekBar.floatValue = 0.0;
     self.seekBar.enabled = NO;
-    
+
     if (self.periodicTimeObserver != nil) {
         [self.player removeTimeObserver:self.periodicTimeObserver];
         self.periodicTimeObserver = nil;
     }
 }
 
-- (void)handleAPMediaSelectedNotification:(NSNotification *)notification {
-    NSURL* url = [notification userInfo][@"url"];
-    if (url) {
-        [self prepareToPlayWithUrl:url];
-    }
+- (void)pause {
+    [self.player pause];
+    self.togglePlayingStatusButton.enabled = NO;
+}
+
+- (void)play {
+    [self.player play];
+    self.togglePlayingStatusButton.enabled = YES;
 }
 
 @end

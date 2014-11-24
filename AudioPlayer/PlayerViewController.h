@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "APNotification.h"
+#import "Player.h"
 
 @interface PlayerViewController : NSViewController
 
