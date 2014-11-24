@@ -13,6 +13,7 @@
 @interface Player : AVPlayer
 
 @property (nonatomic, readonly) BOOL isReadyToPlay;
+@property float settingRate;
 
 - (BOOL)isPlaying;
 - (void)prepareToPlayWithUrl:(NSURL*)pathUrl;

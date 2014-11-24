@@ -21,6 +21,7 @@
         <customObject id="fZq-1t-f9A" customClass="PlayerViewController">
             <connections>
                 <outlet property="playerView" destination="Jxc-DV-pLd" id="wbq-2B-8r8"/>
+                <outlet property="rateSlider" destination="uch-cE-Ziu" id="XdW-1k-j6g"/>
                 <outlet property="seekBar" destination="yez-gQ-wo2" id="OS7-so-HKD"/>
                 <outlet property="togglePlayingStatusButton" destination="UGP-sP-sDy" id="jcv-eN-uKO"/>
             </connections>
@@ -711,7 +712,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <slider focusRingType="none" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yez-gQ-wo2">
-                    <rect key="frame" x="135" y="10" width="268" height="21"/>
+                    <rect key="frame" x="167" y="10" width="236" height="21"/>
                     <sliderCell key="cell" continuous="YES" enabled="NO" state="on" focusRingType="none" alignment="left" maxValue="60" tickMarkPosition="above" sliderType="linear" id="wVq-xF-UKb"/>
                     <connections>
                         <action selector="onSeekbarValueChanged:" target="fZq-1t-f9A" id="chw-xl-nKy"/>
@@ -727,10 +728,18 @@
                         <action selector="onTogglePlayingStateClick:" target="fZq-1t-f9A" id="Xmp-jI-0mN"/>
                     </connections>
                 </button>
+                <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uch-cE-Ziu">
+                    <rect key="frame" x="135" y="5" width="28" height="30"/>
+                    <sliderCell key="cell" continuous="YES" alignment="left" minValue="0.5" maxValue="2" doubleValue="1" tickMarkPosition="left" allowsTickMarkValuesOnly="YES" sliderType="circular" id="Ng1-0v-tZy"/>
+                    <connections>
+                        <action selector="onRateSliderValueChanged:" target="fZq-1t-f9A" id="Dtl-C8-uL5"/>
+                    </connections>
+                </slider>
             </subviews>
             <constraints>
+                <constraint firstItem="yez-gQ-wo2" firstAttribute="leading" secondItem="uch-cE-Ziu" secondAttribute="trailing" constant="8" id="6OA-nX-3qE"/>
+                <constraint firstItem="uch-cE-Ziu" firstAttribute="leading" secondItem="UGP-sP-sDy" secondAttribute="trailing" constant="8" id="Skw-rF-mwM"/>
                 <constraint firstAttribute="trailing" secondItem="yez-gQ-wo2" secondAttribute="trailing" constant="20" id="VzE-js-Fia"/>
-                <constraint firstItem="yez-gQ-wo2" firstAttribute="leading" secondItem="UGP-sP-sDy" secondAttribute="trailing" constant="8" id="lPh-oa-bNH"/>
                 <constraint firstItem="UGP-sP-sDy" firstAttribute="leading" secondItem="Jxc-DV-pLd" secondAttribute="leading" constant="80" id="ueu-nm-TH5"/>
             </constraints>
             <point key="canvasLocation" x="336.5" y="272"/>

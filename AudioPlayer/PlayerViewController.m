@@ -12,6 +12,7 @@
 
 @property (weak) IBOutlet NSButton *togglePlayingStatusButton;
 @property (weak) IBOutlet NSSlider *seekBar;
+@property (weak) IBOutlet NSSlider *rateSlider;
 
 @property (nonatomic) Player* player;
 @property (nonatomic) id periodicTimeObserver;
@@ -82,6 +83,11 @@
     }
 }
 
+- (IBAction)onRateSliderValueChanged:(id)sender {
+    float newValue = [sender floatValue];
+    self.player.settingRate = newValue;
+}
+
 - (void)handleAPMediaSelectedNotification:(NSNotification *)notification {
     NSURL* url = [notification userInfo][@"url"];
     if (url) {
@@ -90,6 +96,7 @@
 }
 
 - (void) initializeControls {
+    self.rateSlider.floatValue = self.player.settingRate;
     [self disableSeekBar];
     [self disableTogglePlayingStatusButton];
 }

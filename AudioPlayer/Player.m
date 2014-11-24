@@ -11,10 +11,9 @@
 @interface Player()
 
 @property (nonatomic, readwrite) BOOL isReadyToPlay;
-@property float settingRate;
 @property (nonatomic) AVMutableAudioMix* settingAudioMix;
 
-- (BOOL)checkIsReadyToPlay;
+- (BOOL) checkIsReadyToPlay;
 - (void) changePlayerItemWith:(AVPlayerItem*)item;
 - (AVPlayerItem*) createNewPlayerItemWithUrl:(NSURL*)url;
 
@@ -34,6 +33,7 @@
         
         // observe item's change
         [self addObserver:self forKeyPath:@"currentItem" options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@"settingRate" options:NSKeyValueObservingOptionNew context:nil];
     }
 
     return self;
@@ -71,6 +71,12 @@
 
 - (void)play {
     if (self.isReadyToPlay) {
+        self.rate = self.settingRate;
+    }
+}
+
+- (void) applyRateChange {
+    if ([self isPlaying]) {
         self.rate = self.settingRate;
     }
 }
@@ -117,6 +123,9 @@
     }
     else if ([keyPath isEqualToString:@"currentItem"]) {
         [self checkIsReadyToPlay];
+    }
+    else if ([keyPath isEqualToString:@"settingRate"]) {
+        [self applyRateChange];
     }
 }
 
