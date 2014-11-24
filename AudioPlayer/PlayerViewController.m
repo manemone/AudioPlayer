@@ -120,7 +120,7 @@
 
         self.periodicTimeObserver = [self.player addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time) {
             
-            if (time.value != wself.player.currentItem.duration.value) {
+            if (time.value == wself.player.currentItem.duration.value) {
                 // pause and rewind to the head when it reaches to the end
                 [wself pause];
                 [wself.player seekToTime:CMTimeMake(0, 1)];
