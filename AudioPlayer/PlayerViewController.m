@@ -35,6 +35,7 @@
 - (void)pause;
 - (void)play;
 - (void)applyPlayerItemStatus;
+- (void)updateSeekbar;
 
 @end
 
@@ -118,21 +119,26 @@
         CMTime time     = CMTimeMakeWithSeconds(interval, NSEC_PER_SEC);
 
         self.periodicTimeObserver = [self.player addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time) {
-            // update seekbar
+            
             if (time.value != wself.player.currentItem.duration.value) {
-                double duration = CMTimeGetSeconds([wself.player.currentItem duration]);
-                double time     = CMTimeGetSeconds([wself.player currentTime]);
-                float  value    = (wself.seekBar.maxValue - wself.seekBar.minValue ) * time / duration + wself.seekBar.minValue;
-                wself.seekBar.floatValue = value;
-                wself.timeElapsed.stringValue = [NSString stringWithFormat:@"%02.0f:%02.0f", floor([wself.player timeElapsedInSec]/60), floor(fmod([wself.player timeElapsedInSec], 60.0))];
-                wself.timeLeft.stringValue = [NSString stringWithFormat:@"-%02.0f:%02.0f", floor([wself.player timeLeftInSec]/60), floor(fmod([wself.player timeLeftInSec], 60.0))];
-            }
-            else {
+                // pause and rewind to the head when it reaches to the end
                 [wself pause];
                 [wself.player seekToTime:CMTimeMake(0, 1)];
             }
+            else {
+                [wself updateSeekbar];
+            }
         }];
     }
+}
+
+- (void)updateSeekbar {
+    double duration = CMTimeGetSeconds([self.player.currentItem duration]);
+    double time     = CMTimeGetSeconds([self.player currentTime]);
+    float  value    = (self.seekBar.maxValue - self.seekBar.minValue )*time/duration + self.seekBar.minValue;
+    self.seekBar.floatValue = value;
+    self.timeElapsed.stringValue = [NSString stringWithFormat:@"%02.0f:%02.0f", floor([self.player timeElapsedInSec]/60), floor(fmod([self.player timeElapsedInSec], 60.0))];
+    self.timeLeft.stringValue = [NSString stringWithFormat:@"-%02.0f:%02.0f", floor([self.player timeLeftInSec]/60), floor(fmod([self.player timeLeftInSec], 60.0))];
 }
 
 - (void)disableSeekBar {
